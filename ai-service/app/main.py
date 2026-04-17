@@ -3,10 +3,8 @@ import json
 import logging
 from app.kafka_engine.consumer import get_consumer
 from app.kafka_engine.producer import get_producer
-
-# Import các service
 from app.services.s3_service import download_s3_uri_to_temp
-# from app.services.groq_service import transcribe_with_whisper  # Sẽ mở comment ở Chặng 2
+from app.services.groq_service import transcribe_with_whisper
 # from app.agents.workflow import analyze_transcript             # Sẽ mở comment ở Chặng 3
 
 logging.basicConfig(
@@ -24,13 +22,12 @@ def process_pipeline(msg):
 
         logger.info(f"[TASK_ID: {task_id}] Bắt đầu pipeline cho URL: {s3_url}")
 
-        # Chặng 1: Kéo file S3 bằng Boto3
+        # 1. Download file S3 bằng Boto3
         temp_audio_path = download_s3_uri_to_temp(s3_url)
         logger.info(f"[TASK_ID: {task_id}] Đã kéo file về: {temp_audio_path}")
 
-        # --- CÁC CHẶNG SAU SẼ LẮP VÀO ĐÂY ---
-        # Chặng 2: Groq Whisper bóc băng
-        # raw_transcript = transcribe_with_whisper(temp_audio_path)
+        # 2. Groq Whisper bóc băng
+        raw_transcript = transcribe_with_whisper(temp_audio_path)
 
         # Chặng 3: Multi-agent phân tích
         # analysis_payload = analyze_transcript(raw_transcript)
