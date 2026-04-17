@@ -31,7 +31,7 @@ public class KafkaProducerService {
         AudioEvent event = new AudioEvent(taskId, realS3Url);
 
         kafkaTemplate.send(TOPIC, taskId, event);
-        System.out.println("🚀 [Producer] Đã gửi event vào Kafka: " + event);
+        System.out.println("[Producer] Đã gửi event vào Kafka: " + event);
 
         return taskId;
     }
